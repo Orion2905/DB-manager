@@ -1,0 +1,6 @@
+Asin ✔
+Duplica tabella ✔
+tabella unica ✔
+elimina dati db ✔
+elimina tabelle ✔
+aggiunta categoria e aggiornamento ✔

@@ -1,0 +1,32 @@
+FUNZIONE TASTI:
+
+- Estapola asin -> trascrive gli asin di una tabella a scelta all'interno di un file di testo;
+
+- Elabora amazon_it -> elabora la tabella db.amazon_it eliminando doppioni e prodotti non disponibili. I prodotti puliti
+vengono inseriti nella tabella disponibili_no_doppioni;
+
+- Tabella unica -> unisce la tabella dell'aggiornamento con la tabella disponibili_no_doppioni all'interno di tabella_unica;
+
+- Aggiungi Categoria -> aggiunge la tabella dispomibili_no_doppioni alla tabella_unica;
+
+- Aggiungi Aggiornamento -> aggiunge la tabella aggiornamento.amazon_it alla tabella_unica;
+
+- Elimina tabella -> elimina definitivamente una tabella dal database;
+
+- Elimina dati tabella -> elimina i dati di una tabella;
+
+PROCEDURE:
+
+1 - elabora amazon_it;
+2 - estrai asin da "disponibili_no_doppioni";
+3 - crea tabella unica;
+
+TABELLE DA ELIMINARE:
+
+- "disponibili_no_doppioni": da eliminare prima di elaborare amazon_it;
+- "disponibili": da eliminare prima di elaborare amazon_it;
+- "tabella_unica": da eliminare quando bisogna crearne una nuova;
+
+INFO:
+
+- Database[2] = aggiornamento{ tabelle: amazon_it }, db{ tabelle: amazon_it, tabella_unica, disponibili_no_doppioni };
