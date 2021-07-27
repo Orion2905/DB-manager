@@ -3,7 +3,6 @@ import tkinter as tk
 import sys
 import random
 import os
-from tkinter import ttk
 from tkinter import *
 from tkinter import filedialog
 from termcolor import colored
@@ -17,13 +16,14 @@ import drop
 import delete
 import dbsettings
 import help
+from tkinter import ttk
 
 class ScrollableFrame(ttk.Frame):
     def __init__(self, container, *args, **kwargs):
         super().__init__(container, *args, **kwargs)
-        canvas = tk.Canvas(self)
+        canvas = tk.Canvas(self, bg='#2d3436', highlightthickness=0)
         scrollbar = ttk.Scrollbar(self, orient="vertical", command=canvas.yview)
-        self.scrollable_frame = ttk.Frame(canvas)
+        self.scrollable_frame = tk.Frame(canvas, bg='#2d3436', highlightthickness=0)
 
         self.scrollable_frame.bind(
             "<Configure>",
@@ -81,13 +81,16 @@ class Main:
         self.colors = ["#c8d6e5", "#636e72", "#c0392b", "#ff3838", "#2d3436", "#d1d8e0", "#2d3436", "#2980b9", "#2980b9"]
         root.geometry("500x620")
         root.title('DB manager')
-        root.resizable(1, 1)
+        root.resizable(0, 0)
         root.grid_columnconfigure(0, weight=1)
         root.configure(background=self.colors[4])
         root.iconbitmap(r'img/icon.ico')
 
         self.root = root
         # frame = ScrollableFrame(root)
+
+        self.frame_1 = tk.Frame(root, bg='#2d3436', width=100)
+        self.frame = ScrollableFrame(self.frame_1)
 
         font_1 = ("Bebas", 32, 'bold')
         font_2 = ("Consolas", 12)
@@ -97,25 +100,35 @@ class Main:
                               font=font_1, fg=self.colors[3],bg=self.colors[1], relief="raised")
         self.title.grid(pady=15, padx=100,sticky="we")
 
-        asin_btn = tk.Button(root, text='Estrapola asin', command=self.get_asin, font=font_3, bg=self.colors[0], border=0.5)
+        self.frame_1.grid(sticky="")
+
+        asin_btn = tk.Button(
+            self.frame.scrollable_frame,
+            text='Estrapola asin',
+            command=self.get_asin,
+            font=font_3,
+            bg=self.colors[0],
+            border=0.5,
+            width=50
+        )
         asin_btn.grid(pady=5, sticky="ew", ipady=5, padx=10)
 
-        clean_btn = tk.Button(root, text='Elabora amazon_it', command=self.cleaning, font=font_3, bg=self.colors[0], border=0.5)
+        clean_btn = tk.Button(self.frame.scrollable_frame, text='Elabora amazon_it', command=self.cleaning, font=font_3, bg=self.colors[0], border=0.5)
         clean_btn.grid(pady=5, sticky="ew", ipady=5, padx=10)
 
-        merge_btn = tk.Button(root, text='Tabella unica', command=self.merge, font=font_3, bg=self.colors[0], border=0.5)
+        merge_btn = tk.Button(self.frame.scrollable_frame, text='Tabella unica', command=self.merge, font=font_3, bg=self.colors[0], border=0.5)
         merge_btn.grid(pady=5, sticky="ew", ipady=5, padx=10)
 
-        add_category = tk.Button(root, text='Aggiungi Categoria', command=self.add_category, font=font_3, bg=self.colors[0], border=0.5)
+        add_category = tk.Button(self.frame.scrollable_frame, text='Aggiungi Categoria', command=self.add_category, font=font_3, bg=self.colors[0], border=0.5)
         add_category.grid(pady=5, sticky="ew", ipady=5, padx=10)
 
-        add_agg = tk.Button(root, text='Aggiungi Aggiornamento', command=self.add_agg, font=font_3, bg=self.colors[0], border=0.5)
+        add_agg = tk.Button(self.frame.scrollable_frame, text='Aggiungi Aggiornamento', command=self.add_agg, font=font_3, bg=self.colors[0], border=0.5)
         add_agg.grid(pady=5, sticky="ew", ipady=5, padx=10)
 
-        drop = tk.Button(root, text='Elimina tabella', command=self.drop, font=font_3, bg=self.colors[0], border=0.5)
+        drop = tk.Button(self.frame.scrollable_frame, text='Elimina tabella', command=self.drop, font=font_3, bg=self.colors[0], border=0.5)
         drop.grid(pady=5, sticky="ew", ipady=5, padx=10)
 
-        delete = tk.Button(root, text='Elimina dati tabella', command=self.delete, font=font_3, bg=self.colors[0], border=0.5)
+        delete = tk.Button(self.frame.scrollable_frame, text='Elimina dati tabella', command=self.delete, font=font_3, bg=self.colors[0], border=0.5)
         delete.grid(pady=5, sticky="ew", ipady=5, padx=10)
 
 
@@ -126,6 +139,8 @@ class Main:
         self.clear_console = tk.Button(root, text='Pulisci console', bg="#c0392b", command=self.clear_console, border=0.5)
         self.clear_console.grid(sticky="ew", padx=4)
 
+        self.frame.grid(sticky="W")
+
         self.menubar = MenuBar(self)
 
         pl = PrintLogger(self.t)
@@ -133,6 +148,7 @@ class Main:
         print("DATABASE MANAGER...")
         self.t.insert(END, "spam\n")
         self.t.see(END)
+
 
         # root.after(10, self.do_something)
 
