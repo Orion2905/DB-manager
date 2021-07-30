@@ -202,7 +202,12 @@ class Main:
         self.t.config(state=tk.NORMAL)
         self.t.delete('1.0', tk.END)
         self.t.config(state=tk.DISABLED)
-        self.clear_console.configure(bg=random.choice(colors))
+
+        if self.t:
+            self.clear_console.configure(bg=colors[0])
+        else:
+            self.clear_console.configure(bg=colors[1])
+
 
     def connection_setting(self):
         os.system("cd cache & connection.txt")
